@@ -1,4 +1,4 @@
-import {StyleSheet, StatusBar, Platform} from 'react-native'
+import { Platform, StatusBar, StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
     header: {
@@ -8,7 +8,6 @@ export default StyleSheet.create({
         flex: 1
     },
     background: {
-        backgroundColor: 'black',
         flex: 1,
         marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
     }

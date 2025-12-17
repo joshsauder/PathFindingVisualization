@@ -1,18 +1,18 @@
-import React, {Component} from 'react'
-import {FlatList} from 'react-native';
-import Style from '../../styles/Grid'
-import Item from "./Item"
-import {node, createNode} from '../../models/Graph';
-import {Dijkstras, TwoWayDijkstra} from '../../algorithms/Dijkstra'
-import {BreadthFirstSearch} from '../../algorithms/BFS'
-import {AStar, TwoWayAStar} from '../../algorithms/AStar'
-import {getPathInOrder} from '../../algorithms/Utils'
+import React, { Component } from 'react';
+import { FlatList } from 'react-native';
+import { AStar, TwoWayAStar } from '../../algorithms/AStar';
+import { BreadthFirstSearch } from '../../algorithms/BFS';
 import { DepthFirstSearch } from '../../algorithms/DFS';
+import { Dijkstras, TwoWayDijkstra } from '../../algorithms/Dijkstra';
+import { getPathInOrder } from '../../algorithms/Utils';
+import { createNode, node } from '../../models/Graph';
+import Style from '../../styles/Grid';
+import Item from "./Item";
 
 interface State {
     numCols: number,
-    start: node,
-    end: node,
+    start: node | undefined,
+    end: node | undefined,
     graph: node[][],
 }
 
@@ -26,7 +26,7 @@ export default class Grid extends Component<Props, State> {
     itemRefs: any;
     wallRefs: any;
 
-    constructor(props){
+    constructor(props: Props){
         super(props)
         this.state = {
             numCols: 20,
@@ -84,33 +84,33 @@ export default class Grid extends Component<Props, State> {
 
         switch(this.props.algorithm){
             case "Dijkstra":
-                visitedNodes = Dijkstras(start, end, graph)
-                this.processUnidirectional(visitedNodes, end)
+                visitedNodes = Dijkstras(start!, end!, graph)
+                this.processUnidirectional(visitedNodes, end!)
                 break;
 
             case "BiD":
-                visitedNodes = TwoWayDijkstra(start, end, graph)
+                visitedNodes = TwoWayDijkstra(start!, end!, graph)
                 this.processBidirectional(visitedNodes)
                 break;
             
             case "BFS":
-                visitedNodes = BreadthFirstSearch(start, end, graph)
-                this.processUnidirectional(visitedNodes, end)
+                visitedNodes = BreadthFirstSearch(start!, end!, graph)
+                this.processUnidirectional(visitedNodes, end!)
                 break;
             
             case "A*":
-                visitedNodes = AStar(start, end, graph)
-                this.processUnidirectional(visitedNodes, end)
+                visitedNodes = AStar(start!, end!, graph)
+                this.processUnidirectional(visitedNodes, end!)
                 break;
             
             case "BA*":
-                visitedNodes = TwoWayAStar(start, end, graph)
+                visitedNodes = TwoWayAStar(start!, end!, graph)
                 this.processBidirectional(visitedNodes)
                 break;
 
             case "DFS":
-                visitedNodes = DepthFirstSearch(start, end, graph)
-                this.processUnidirectional(visitedNodes, end)
+                visitedNodes = DepthFirstSearch(start!, end!, graph)
+                this.processUnidirectional(visitedNodes, end!)
                 break;
         }
     }
@@ -118,7 +118,7 @@ export default class Grid extends Component<Props, State> {
     processUnidirectional = (visitedNodes: node[], end: node) => {
         if(visitedNodes.length > 0){
             //check if path was found
-            let path = visitedNodes[visitedNodes.length-1].key === end.key ? getPathInOrder(visitedNodes.pop()) : []
+            let path = visitedNodes[visitedNodes.length-1].key === end.key ? getPathInOrder(visitedNodes.pop()!) : []
             this.highLightGrid(path, visitedNodes)
         }else {this.props.setStep(6)}
     }
@@ -129,8 +129,8 @@ export default class Grid extends Component<Props, State> {
             let end = visitedNodes[visitedNodes.length -1]
             //check if path was found
             if(start.key === end.key || (start.previous && start.previous.key === end.key)){
-                let endpath = getPathInOrder(visitedNodes.pop())
-                let startpath = getPathInOrder(visitedNodes.pop())
+                let endpath = getPathInOrder(visitedNodes.pop()!)
+                let startpath = getPathInOrder(visitedNodes.pop()!)
                 this.highLightGrid([...startpath, ...endpath], visitedNodes)
             }else {
                 this.highLightGrid([], visitedNodes)
@@ -212,7 +212,7 @@ export default class Grid extends Component<Props, State> {
                 renderItem={({item}) =>
                     <Item id={item.key}
                         onSelect={this.itemSelected}
-                        selected={(start && start.key === item.key) || (end && end.key === item.key)}
+                        selected={!!((start && start.key === item.key) || (end && end.key === item.key))}
                         forwardRef={(c: (value: number) => void) => {this.setReference(c, item.key)}}
                         />}
                 numColumns={this.state.numCols}

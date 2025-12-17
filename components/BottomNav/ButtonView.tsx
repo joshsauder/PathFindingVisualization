@@ -1,7 +1,7 @@
+import { Button, ButtonText } from '@/components/ui/button';
 import React from "react";
-import {View} from 'react-native'
-import {Button, Text} from 'native-base';
-import Styles from '../../styles/TopNav'
+import { View } from 'react-native';
+import Styles from '../../styles/TopNav';
 
 interface props {
     onSubmit: () => void
@@ -14,10 +14,10 @@ export default function BottomNav({onSubmit, onReset, step}: props){
     return (
         <View style={Styles.buttonMargin}>
             <View style={Styles.buttonMargin}>
-                <Button full onPress={onSubmit} disabled={step !== 3} style={Styles.buttonColorWhite}><Text style={Styles.textBlack}>Find Path</Text></Button>
+                <Button variant="solid" size="md" onPress={onSubmit} isDisabled={step !== 3}><ButtonText>Find Path</ButtonText></Button>
             </View>
             <View>
-                <Button full onPress={onReset} disabled={step === 5} style={Styles.buttonColorWhite}><Text style={Styles.textBlack}>Reset</Text></Button>
+                <Button variant="solid" size="md" onPress={onReset} isDisabled={step === 5}><ButtonText>Reset</ButtonText></Button>
             </View>
         </View>
     )

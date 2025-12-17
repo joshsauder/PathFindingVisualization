@@ -1,7 +1,6 @@
+import { ChevronDownIcon } from '@/components/ui/icon';
+import { Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectScrollView, SelectTrigger } from '@/components/ui/select';
 import React from "react";
-import { Dimensions } from "react-native";
-import { Picker, Icon} from 'native-base'
-import Styles from '../../styles/TopNav'
 
 interface props {
     algorithm: string
@@ -11,19 +10,30 @@ interface props {
 export default function AlgorithmPicker(props: props){
 
     return (
-        <Picker
-            selectedValue={props.algorithm}
-            iosIcon={<Icon name="arrow-down" style={{...Styles.textWhite, marginLeft: 5}}/>}
-            onValueChange={(value: string) => props.setAlgorithm(value)}
-            style={{width: Dimensions.get("window").width/3 - 5}}
-            textStyle={Styles.textWhite}
-            >
-                <Picker.Item label="Dijkstra" value="Dijkstra"/>
-                <Picker.Item label="Bidirectional Dijkstra" value="BiD" />
-                <Picker.Item label="A* (A Star)" value="A*" />
-                <Picker.Item label="Bidirectional A* (A Star)" value="BA*" />
-                <Picker.Item label="Breadth-First Search" value="BFS"/>
-                <Picker.Item label="Depth-First Search" value="DFS" />
-        </Picker>
+    <Select
+        selectedValue={props.algorithm}
+        onValueChange={(value: string) => props.setAlgorithm(value)}
+    >
+      <SelectTrigger variant="outline" size="md" className='justify-between'>
+        <SelectInput placeholder="Select option" />
+        <SelectIcon as={ChevronDownIcon} className='mr-1'/>
+      </SelectTrigger>
+      <SelectPortal>
+        <SelectBackdrop />
+        <SelectContent>
+          <SelectDragIndicatorWrapper>
+            <SelectDragIndicator />
+          </SelectDragIndicatorWrapper>
+            <SelectScrollView>
+            <SelectItem label="Dijkstra" value="Dijkstra"/>
+            <SelectItem label="Bidirectional Dijkstra" value="BiD" />
+            <SelectItem label="A* (A Star)" value="A*" />
+            <SelectItem label="Bidirectional A* (A Star)" value="BA*" />
+            <SelectItem label="Breadth-First Search" value="BFS"/>
+            <SelectItem label="Depth-First Search" value="DFS" />
+            </SelectScrollView>
+        </SelectContent>
+      </SelectPortal>
+    </Select>
     )
 }

@@ -1,6 +1,6 @@
-import { node } from '../models/Graph'
-import {findNeighborNodes} from './Utils'
 import Heap from 'heap'
+import { node } from '../models/Graph'
+import { findNeighborNodes } from './Utils'
 
 /**
  * A* Path Finder
@@ -12,7 +12,7 @@ import Heap from 'heap'
  */
 export function AStar(start: node, end: node, grid: node[][], heuristic?: (currentNode: node, start: node, end: node) => number): node[]{
     //sort based on f value
-    let queuedNodes = new Heap<node>(function(a, b){
+    let queuedNodes = new Heap<node>(function(a: node, b: node){
         return a.f() - b.f()
     })
 
@@ -26,7 +26,7 @@ export function AStar(start: node, end: node, grid: node[][], heuristic?: (curre
     queuedNodes.push(sNode)
 
     while(queuedNodes.size() > 0){
-        let current = queuedNodes.pop()
+        let current = queuedNodes.pop()!
         current.closed = true
         visitedNodes.push(current)
 
@@ -42,11 +42,11 @@ export function AStar(start: node, end: node, grid: node[][], heuristic?: (curre
 }
 
 export function TwoWayAStar(start: node, end: node, grid: node[][], heuristic?: (currentNode: node, start: node, end: node) => number): node[] {
-    let queuedNodes = new Heap<node>(function (a, b) {
+    let queuedNodes = new Heap<node>(function (a: node, b: node) {
         return a.f() - b.f();
     })
 
-    let reverseQueuedNodes = new Heap<node>(function (a, b) {
+    let reverseQueuedNodes = new Heap<node>(function (a: node, b: node) {
         return (a.heuristic + a.g) - (b.heuristic + b.g);
     })
 
@@ -54,14 +54,14 @@ export function TwoWayAStar(start: node, end: node, grid: node[][], heuristic?: 
 
     let visitedNodes: node[] = []
     //allows for constant time lookup
-    let visitedKeys: {} = {}
+    let visitedKeys: { [key: string]: node } = {}
 
     //set start and end weights to 0
     let sNode = grid[start.y][start.x]
     sNode.g = 0
     sNode.heuristic = 0
 
-    let eNode = reverseGrid[end.y][end.x]
+    let eNode: node = reverseGrid[end.y][end.x]
     eNode.g = 0
     eNode.heuristic = 0
 
@@ -70,8 +70,8 @@ export function TwoWayAStar(start: node, end: node, grid: node[][], heuristic?: 
     reverseQueuedNodes.push(eNode)
 
     while (queuedNodes.size() > 0 && reverseQueuedNodes.size() > 0) {
-        let startNode = queuedNodes.pop()
-        let reverseNode = reverseQueuedNodes.pop()
+        let startNode = queuedNodes.pop()!
+        let reverseNode = reverseQueuedNodes.pop()!
 
         startNode.closed = true
         reverseNode.closed = true

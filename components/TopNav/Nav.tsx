@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from 'react-native';
 
-import Styles from '../../styles/TopNav'
+import Styles from '../../styles/TopNav';
 import AlgorithmPicker from "./AlgorithmPicker";
 import SetupPoints from "./SetupPoints";
 
@@ -15,8 +15,12 @@ export default function Nav({algorithm, setAlgorithm, step}: props){
 
     return (
         <View style={Styles.container}>
-            <AlgorithmPicker algorithm={algorithm} setAlgorithm={setAlgorithm}/>
-            <SetupPoints step={step} />
+            <View style={{flex:1}} className="mr-3">
+                <AlgorithmPicker algorithm={algorithm} setAlgorithm={setAlgorithm}/>
+            </View>
+            <View style={{flex:1}}>
+                <SetupPoints step={step} />
+            </View>
         </View>
     )
 }

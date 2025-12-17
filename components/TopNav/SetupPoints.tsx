@@ -1,6 +1,6 @@
 import React from "react";
-import { Text, Dimensions } from 'react-native';
-import Styles from '../../styles/TopNav'
+import { Text } from 'react-native';
+import Styles from '../../styles/TopNav';
 
 interface props {
     step: number,
@@ -27,10 +27,12 @@ export default function SetupPoints({step}: props){
         case 6:
             text = "Press \"Reset\" to generate another path"
             break;
+        default:
+            text = ""
     }
 
     return (
-        <Text style={[Styles.textStyle, {width: Dimensions.get('window').width/2}]}>
+        <Text style={{...Styles.textStyle}}>
             {"Next Step: \n" + text}
         </Text>
 

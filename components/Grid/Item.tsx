@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import {TouchableOpacity, Dimensions, View, Animated} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Animated, Dimensions, TouchableOpacity, View } from 'react-native'
 import Style from '../../styles/Grid'
 
 interface props {
@@ -19,12 +19,12 @@ export default function Item(props: props){
         if(props.selected){
             Animated.timing(
                 color,
-                { toValue: -2, duration: 410 }
+                { toValue: -2, duration: 410, useNativeDriver: true }
             ).start()
-        }else if(!props.selected && color._value === -2){
+        }else if(!props.selected && (color as any)._value === -2){
             Animated.timing(
                 color,
-                { toValue: 0, duration: 410 }
+                { toValue: 0, duration: 410, useNativeDriver: true }
             ).start()
         }
     }, [props.selected])
@@ -50,11 +50,11 @@ export default function Item(props: props){
             Animated.parallel([
                 Animated.timing(
                     color,
-                    { toValue: value, duration: 500 }
+                    { toValue: value, duration: 500, useNativeDriver: true}
                 ),
                 Animated.timing(
                     rotate,
-                    {toValue: 100, duration: 500} 
+                    { toValue: 100, duration: 500, useNativeDriver: true } 
                 )
             ]).start()
         }

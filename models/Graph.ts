@@ -2,7 +2,7 @@ export type node = {
     key: string
     x: number
     y: number
-    previous: node
+    previous: node | null
     heuristic: number
     g: number
     f: () => number

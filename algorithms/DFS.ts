@@ -1,6 +1,6 @@
 import { node } from '../models/Graph'
-import {findNeighborNodes} from './Utils'
-import {processNeighborNodes} from './BFS'
+import { processNeighborNodes } from './BFS'
+import { findNeighborNodes } from './Utils'
 
 /**
  * Depth-First Search Finder
@@ -21,7 +21,7 @@ export function DepthFirstSearch(start: node, end: node, grid: node[][]): node[]
 
     while(queuedNodes.length > 0){
         for(let i = 0; i < queuedNodes.length; i++){
-            let currentNode = queuedNodes.shift()
+            let currentNode = queuedNodes.shift()!
             visitedNodes.push(currentNode)
 
             if(currentNode.key === end.key){

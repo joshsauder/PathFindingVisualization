@@ -8,18 +8,8 @@ export default StyleSheet.create({
     textStyle: {
         marginLeft: 'auto',
         marginRight: 10,
-        color: 'white'
     },
     buttonMargin: {
         paddingVertical: 10
     },
-    textBlack: {
-        color: 'black'
-    },
-    textWhite: {
-        color: 'white'
-    },
-    buttonColorWhite: {
-        backgroundColor: 'white'
-    }
 })

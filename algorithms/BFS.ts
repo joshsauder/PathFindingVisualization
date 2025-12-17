@@ -1,5 +1,5 @@
 import { node } from '../models/Graph'
-import {findNeighborNodes} from './Utils'
+import { findNeighborNodes } from './Utils'
 
 
 /**
@@ -23,7 +23,7 @@ export function BreadthFirstSearch(start: node, end: node, grid: node[][]): node
     queuedNodes.push(sNode)
 
     while(queuedNodes.length > 0){
-        let currentNode = queuedNodes.shift()
+        let currentNode = queuedNodes.shift()!
         visitedNodes.push(currentNode)
 
         if(currentNode.key === end.key){
